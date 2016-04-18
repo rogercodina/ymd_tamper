@@ -39,14 +39,18 @@ function ymd_tamper_callback($source, $item_key, $element_key, &$field, $setting
   foreach ($field as $f) {
     if(is_array($f)) {
       foreach ($f as $f_values) {
-        $f_values = ymd_tamper_process($f_values);
-        $f_values = (isset($settings['to_time']) && $settings['to_time']) ? strtotime($f_values) : $f_values;
-        $out[] = $f_values;
+	    if (!empty($f_values)) {
+          $f_values = ymd_tamper_process($f_values);
+          $f_values = (isset($settings['to_time']) && $settings['to_time']) ? strtotime($f_values) : $f_values;
+          $out[] = $f_values;
+        }
       }
     } else {
-      $f = ymd_tamper_process($f);
-      $f = (isset($settings['to_time']) && $settings['to_time']) ? strtotime($f) : $f;
-      $out[] = $f;
+	  if (!empty($f)) {
+        $f = ymd_tamper_process($f);
+        $f = (isset($settings['to_time']) && $settings['to_time']) ? strtotime($f) : $f;
+        $out[] = $f;
+      }
     }
   }
   if (count($out) == 1) {
